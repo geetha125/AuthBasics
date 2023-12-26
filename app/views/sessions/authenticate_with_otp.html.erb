@@ -1,0 +1,10 @@
+<%= form_with(url: authenticate_with_otp_path, method: :get) do |form| %>
+  <div>
+    <%= form.label :otp %>
+    <%= form.password_field :otp %>
+  </div>
+  <div>
+    <%= hidden_field_tag :email, params[:email] %>
+    <%= form.submit 'Authenticate with Otp' %>
+  </div>
+<% end %>

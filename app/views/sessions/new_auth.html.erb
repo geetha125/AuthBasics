@@ -1,0 +1,60 @@
+<%= form_with(url: new_authentication_path, method: :post, id: 'authenticate-form') do |form| %>
+  <div>
+    <%= form.label :email,'Email' %>
+    <%= form.email_field :email, id: 'email-field' %>
+  </div>
+
+  <div>
+    <%= form.label :auth_type, 'Choose Authentication Type' %><br>
+    <%= form.radio_button :auth_type, 'password', checked: true, onclick: "toggleFields('password')" %> Password
+    <%= form.radio_button :auth_type, 'otp', onclick: "toggleFields('otp'); generateAndSetOTP()" %> OTP
+  </div>
+
+  <div>
+    <%= form.label :password, 'Password' %>
+    <%= form.password_field :password, id: 'password-field' %>
+  </div>
+
+  <div>
+    <%= form.label :otp, 'OTP' %>
+    <%= form.text_field :otp, style: 'display: none;', id: 'otp-field' %>
+  </div> 
+
+  <div>
+    <%= form.submit 'Next' %>
+  </div>
+<% end %>
+
+
+<script>
+  function toggleFields(authType) {
+    if (authType === 'password') {
+      document.getElementById('password-field').style.display = 'block';
+      document.getElementById('otp-field').style.display = 'none';
+    } else {
+      document.getElementById('password-field').style.display = 'none';
+      document.getElementById('otp-field').style.display = 'block';   
+
+
+    }
+  }    
+
+  function generateAndSetOTP() {
+  const email = document.getElementById('email-field').value;  
+  console.log(email)
+
+  fetch(`/generate_and_set_otp?email=${email}`)
+    .then(response => {
+      if (response.ok) {
+        console.log('OTP generated and updated for the user.');
+      } else {
+        console.error('Failed to generate and set OTP.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+} 
+
+</script>
+

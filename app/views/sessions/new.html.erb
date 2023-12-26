@@ -1,0 +1,10 @@
+ <%= form_with(url: check_users_path, method: :post) do |form| %>
+  <div>
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+  </div>
+  <div>
+    <%= form.submit 'Authenticate with Password' %>
+    <%= link_to 'Authenticate with OTP', authenticate_with_otp_path(email: form.object&.email) %>
+  </div>
+<% end %>
